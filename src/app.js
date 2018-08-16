@@ -14,6 +14,12 @@ const getApp = ({
   dependencies,
   types,
 }) => {
+  const delegateTo = (deps, ...args) => (intentName) => {
+    const filteredIntents = intents.filter(({ name }) => name === intentName);
+    console.log({ intentName, filteredIntents });
+    return filteredIntents.map(intent => intent.handler(deps)(...args));
+  };
+
   const getCustomSlotTypes = language => types.map(({ name, values }) => ({
     name,
     values: Object.keys(values).map((id) => {
@@ -26,14 +32,16 @@ const getApp = ({
     }),
   }));
 
-  const getIntents = language => intents.map(({ name, options, handler }) => ({
-    name,
-    options: {
-      ...options,
-      utterances: options && options.utterances[language],
-    },
-    handler,
-  }));
+  const getIntents = language => intents
+    .filter(({ noPublish }) => !noPublish) // Filter out internal intents
+    .map(({ name, options, handler }) => ({
+      name,
+      options: {
+        ...options,
+        utterances: options && options.utterances[language],
+      },
+      handler,
+    }));
 
   const getLaunchIntent = language => ({
     handler: launchIntent.handler,
@@ -61,6 +69,8 @@ const getApp = ({
 
     // Refresh deps, preHandler might have loaded some interesting values
     deps = await objectPromise(getDeps(dependencies, ...args));
+
+    deps = { ...deps, delegateTo: delegateTo(deps, ...args) };
 
     console.inspect('Executing Handler');
     await benchFunction(R.curry(handler)(deps))(...args);
