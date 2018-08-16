@@ -19,7 +19,7 @@ const translatorForLanguages = (translations, fallbackLng = 'fr') => {
       returnObjects: true,
     });
     return {
-      t: (...args) => localizationClient.t(...args),
+      t: (...args) => `haha ${localizationClient.t(...args)}`,
     };
   };
 
