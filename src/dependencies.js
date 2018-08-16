@@ -5,8 +5,8 @@ const CustomDirectives = require('./controler/CustomDirectives');
 const Slots = require('./model/Slots');
 
 const builtInDependencies = {
-  database: tableName => (...args) => ({
-    database: new Database(tableName, ...args),
+  database: (tableName, region) => (...args) => ({
+    database: new Database(tableName, region, ...args),
   }),
   t,
 };
