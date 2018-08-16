@@ -14,8 +14,11 @@ const builtInDependencies = {
 // Feed deps with params
 const getDeps = (dependencies, ...args) => {
   let allDeps = {};
+
+  // Mandatory deps
   allDeps = { ...allDeps, slots: new Slots(...args).getAllSlots() };
   allDeps = { ...allDeps, ...new CustomDirectives(...args).getFunctions() };
+
   dependencies.forEach((dependencie) => {
     const initializedDependencie = dependencie(...args);
     console.inspect(`Initialized : ${Object.keys(initializedDependencie)}`);
