@@ -1,0 +1,46 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "fr-FR": {
+          "summary": "Le 7 minute workout avec Alexa",
+          "examplePhrases": ["Alexa gymnastique", "Alexa j'ai pas le moral"],
+          "name": "7minWorkout",
+          "description":
+            "Nous recommendons la pratique du 7 minute workout tous les jours"
+        },
+        "en-US": {
+          "summary": "The 7 minutes workout on Alexa",
+          "examplePhrases": ["Alexa open workout", "Alexa encourage me"],
+          "name": "7minWorkout",
+          "description":
+            "We recommend to practice the 7 minutes workout every day"
+        },
+        "en-GB": {
+          "summary": "The 7 minutes workout on Alexa",
+          "examplePhrases": ["Alexa open workout", "Alexa encourage me"],
+          "name": "7minWorkout",
+          "description":
+            "We recommend to practice the 7 minutes workout every day"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Sample Testing Instructions.",
+      "category": "EDUCATION_AND_REFERENCE",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "sourceDir": "./"
+        },
+        "interfaces": [
+          {
+            "type": "AUDIO_PLAYER"
+          }
+        ]
+      }
+    },
+    "manifestVersion": "1.0"
+  }
+}

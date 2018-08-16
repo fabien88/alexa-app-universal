@@ -1,0 +1,35 @@
+{
+  "name": "alexa-app-universal",
+  "version": "1.0.1",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "npm run test-unit",
+    "test-watch": "NODE_ENV=test mocha --watch --require co-mocha '*.spec.js'",
+    "test-unit": "NODE_ENV=test mocha --require co-mocha '*.spec.js'",
+    "buildSchema": "node index.js schema",
+    "deploy": "npm run buildSchema && ask deploy --no-wait --force",
+    "deployLambda": "npm run buildSchema schema && ask deploy -t lambda",
+    "awsLogs": "awslogs get /aws/lambda/ask-7minWorkout ALL --watch",
+    "watchLogs": "npm run awsLogs -- --filter-pattern='?\"[ERROR]\" ?\"[LOG]\" ?\"[INFO]\" ?\"[WARN]\"' | cut -d ' ' -f3-",
+    "watchLogsInspect": "npm run awsLogs -- --filter-pattern='?\"[ERROR]\" ?\"[LOG]\" ?\"[INFO]\" ?\"[WARN]\" ?\"[INSPECT]\"' | cut -d ' ' -f3-"
+  },
+  "dependencies": {
+    "alexa-app": "4.2.2",
+    "body-parser": "^1.13.1",
+    "dynasty": "^0.3.9",
+    "ejs": "^2.3.1",
+    "express": "^4.13.0",
+    "i18next": "^11.6.0",
+    "i18next-sprintf-postprocessor": "^0.2.2",
+    "ramda": "^0.25.0",
+    "ssml-builder": "^0.4.3"
+  },
+  "author": "Matt Kruse <github@mattkruse.com> (http://mattkruse.com/)",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.13.0"
+  }
+}
