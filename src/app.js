@@ -16,6 +16,9 @@ const getApp = ({
 }) => {
   const delegateTo = (deps, ...args) => (intentName) => {
     const filteredIntents = intents.filter(({ name }) => name === intentName);
+    if (filteredIntents.length === 0) {
+      console.error(`No intent handler found for : ${intentName}`);
+    }
     return filteredIntents.map(intent => intent.handler(deps)(...args));
   };
 
