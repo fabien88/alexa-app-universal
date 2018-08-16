@@ -1,29 +1,28 @@
-const dynasty = require("dynasty")({ region: "eu-west-1" });
+const notInitializedDynasty = require('dynasty');
 
 class Database {
-  constructor(tableName) {
+  constructor(tableName, region) {
+    this.dynasty = notInitializedDynasty({ region });
     this.tableName = tableName;
-    this.table = dynasty.table(this.tableName);
+    this.table = this.dynasty.table(this.tableName);
   }
 
   createTable() {
-    return dynasty.describe(this.tableName).catch(() =>
-      dynasty.create(this.tableName, {
-        key_schema: {
-          hash: ["userId", "string"]
-        }
-      })
-    );
+    return this.dynasty.describe(this.tableName).catch(() => this.dynasty.create(this.tableName, {
+      key_schema: {
+        hash: ['userId', 'string'],
+      },
+    }));
   }
 
   writeUserData(userId, userData) {
-    console.inspect("persisted user data");
+    console.inspect('persisted user data');
     return this.table
       .insert({
         ...userData,
-        userId
+        userId,
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   }
