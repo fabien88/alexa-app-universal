@@ -16,7 +16,6 @@ const getApp = ({
 }) => {
   const delegateTo = (deps, ...args) => (intentName) => {
     const filteredIntents = intents.filter(({ name }) => name === intentName);
-    console.log({ intentName, filteredIntents });
     return filteredIntents.map(intent => intent.handler(deps)(...args));
   };
 
