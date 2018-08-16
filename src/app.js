@@ -19,7 +19,7 @@ const getApp = ({
     if (filteredIntents.length === 0) {
       console.error(`No intent handler found for : ${intentName}`);
     }
-    return filteredIntents.map(intent => intent.handler(deps)(...args));
+    return filteredIntents.map(intent => intent.handler({ ...deps, delagated: true })(...args));
   };
 
   const getCustomSlotTypes = language => types.map(({ name, values }) => ({
