@@ -2,7 +2,9 @@ const notInitializedDynasty = require('dynasty');
 
 class Database {
   constructor(tableName, region) {
+    console.log({ region });
     this.dynasty = notInitializedDynasty({ region });
+    console.log({ dynasty: this.dynasty });
     this.tableName = tableName;
     this.table = this.dynasty.table(this.tableName);
   }
