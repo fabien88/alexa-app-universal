@@ -1,10 +1,10 @@
 const app = require('./app');
-const preHandler = require('./preMiddlewares');
-const postHandler = require('./postMiddlewares');
+const preMiddleware = require('./preMiddlewares');
+const postMiddlewares = require('./postMiddlewares');
 const { dependencies } = require('./dependencies');
 
 module.exports = {
   alexa: app,
-  middlewares: { ...preHandler, ...postHandler },
+  middlewares: { ...preMiddleware, ...postMiddlewares },
   dependencies,
 };
