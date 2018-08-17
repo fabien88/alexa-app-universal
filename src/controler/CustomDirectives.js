@@ -64,7 +64,15 @@ class CustomDirectives {
             buffer += d;
           });
           res.on('end', () => {
-            resolve(JSON.parse(buffer));
+            try {
+              const addressResponse = JSON.parse(buffer);
+              if (addressResponse && addressResponse.type === 'FORBIDDEN') {
+                return reject(new Error('User is not allowed to read address'));
+              }
+              return resolve(addressResponse);
+            } catch (e) {
+              return reject(e);
+            }
           });
         });
         req.end();
