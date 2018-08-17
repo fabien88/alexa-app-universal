@@ -43,8 +43,38 @@ class CustomDirectives {
       });
     };
 
+    this.getAddress = () => {
+      const { deviceId } = request.context.System.device;
+
+      const options = {
+        hostname: url.parse(request.context.System.apiEndpoint).hostname,
+        port: 443,
+        path: `/v1/devices/${deviceId}/settings/address`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${request.context.System.apiAccessToken}`,
+        },
+      };
+
+      return new Promise((resolve, reject) => {
+        const req = https.request(options, (res) => {
+          let buffer = '';
+          res.on('data', (d) => {
+            buffer += d;
+          });
+          res.on('end', () => {
+            resolve(JSON.parse(buffer));
+          });
+        });
+        req.end();
+        req.on('error', err => reject(err));
+      });
+    };
+
     this.getFunctions = () => ({
       sayNow: this.sayNow,
+      getAddress: this.getAddress,
     });
   }
 }
