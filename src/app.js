@@ -14,7 +14,7 @@ const getApp = ({
   dependencies,
   types,
 }) => {
-  const delegateTo = (deps, ...args) => (intentName) => {
+  const delegateTo = (deps, ...args) => (intentName, delegateParams) => {
     const filteredIntents = intents.filter(({ name }) => name === intentName);
     if (filteredIntents.length === 0 || filteredIntents.length > 1) {
       console.error(
@@ -22,7 +22,12 @@ const getApp = ({
       );
     }
     const filteredIntent = filteredIntents[0];
-    return filteredIntent.handler({ ...deps, delagated: true })(...args);
+    return filteredIntent.handler({
+      ...deps,
+      delagated: true,
+      delegateParams,
+      delegateTo: delegateTo(deps, ...args),
+    })(...args);
   };
 
   const getCustomSlotTypes = language => types.map(({ name, values, flatValues }) => ({
