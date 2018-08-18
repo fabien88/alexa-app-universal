@@ -16,10 +16,13 @@ const getApp = ({
 }) => {
   const delegateTo = (deps, ...args) => (intentName) => {
     const filteredIntents = intents.filter(({ name }) => name === intentName);
-    if (filteredIntents.length === 0) {
-      console.error(`No intent handler found for : ${intentName}`);
+    if (filteredIntents.length === 0 || filteredIntents.length > 1) {
+      console.error(
+        `No intent or more than two handler found for : ${intentName}`,
+      );
     }
-    return filteredIntents.map(intent => intent.handler({ ...deps, delagated: true })(...args));
+    const filteredIntent = filteredIntents[0];
+    return filteredIntent.handler({ ...deps, delagated: true })(...args);
   };
 
   const getCustomSlotTypes = language => types.map(({ name, values }) => ({
