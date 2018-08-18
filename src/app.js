@@ -25,16 +25,18 @@ const getApp = ({
     return filteredIntent.handler({ ...deps, delagated: true })(...args);
   };
 
-  const getCustomSlotTypes = language => types.map(({ name, values }) => ({
+  const getCustomSlotTypes = language => types.map(({ name, values, flatValues }) => ({
     name,
-    values: Object.keys(values).map((id) => {
-      const [value, ...synonyms] = values[id][language];
-      return {
-        id,
-        value,
-        synonyms,
-      };
-    }),
+    values: flatValues
+      ? flatValues[language]
+      : Object.keys(values).map((id) => {
+        const [value, ...synonyms] = values[id][language];
+        return {
+          id,
+          value,
+          synonyms,
+        };
+      }),
   }));
 
   const getIntents = language => intents
