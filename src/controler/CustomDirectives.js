@@ -4,6 +4,7 @@ const url = require('url');
 class CustomDirectives {
   constructor(request, response) {
     this.sayNow = (speech) => {
+      console.log({ sayNow: speech });
       const postData = {
         header: {
           requestId: request.data.request.requestId,

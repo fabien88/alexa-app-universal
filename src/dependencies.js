@@ -11,6 +11,14 @@ const builtInDependencies = {
   t,
 };
 
+const getSay = (request, response) => {
+  const say = response.say && response.say.bind(response);
+  return (...args) => {
+    console.log({ say: { ...args } });
+    return say && say(...args);
+  };
+};
+
 // Feed deps with params
 const getDeps = (dependencies, ...args) => {
   let allDeps = {};
@@ -18,6 +26,7 @@ const getDeps = (dependencies, ...args) => {
   // Mandatory deps
   allDeps = { ...allDeps, slots: new Slots(...args).getAllSlots() };
   allDeps = { ...allDeps, ...new CustomDirectives(...args).getFunctions() };
+  allDeps = { ...allDeps, say: getSay(...args) };
 
   dependencies.forEach((dependencie) => {
     const initializedDependencie = dependencie(...args);
