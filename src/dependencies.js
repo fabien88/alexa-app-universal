@@ -30,7 +30,6 @@ const getDeps = (dependencies, ...args) => {
 
   dependencies.forEach((dependencie) => {
     const initializedDependencie = dependencie(...args);
-    console.inspect(`Initialized : ${Object.keys(initializedDependencie)}`);
     allDeps = { ...allDeps, ...initializedDependencie };
   });
   return allDeps;

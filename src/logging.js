@@ -16,7 +16,9 @@ const benchFunction = func => async (...args) => {
   const startAt = Date.now();
   const res = await func(...args);
   const endAt = Date.now();
-  console.inspect(`function ${func.name} in ${endAt - startAt}ms`);
+  if (endAt - startAt > 100) {
+    console.inspect(`function ${func.name} in ${endAt - startAt}ms`);
+  }
   return res;
 };
 
