@@ -15,7 +15,7 @@
     "watchLogsInspect": "npm run awsLogs -- --filter-pattern='?\"[ERROR]\" ?\"[LOG]\" ?\"[INFO]\" ?\"[WARN]\" ?\"[INSPECT]\"' | cut -d ' ' -f3-"
   },
   "dependencies": {
-    "alexa-app": "4.2.2",
+    "alexa-app": "https://github.com/fabien88/alexa-app.git/",
     "body-parser": "^1.13.1",
     "dynasty": "^0.3.9",
     "ejs": "^2.3.1",

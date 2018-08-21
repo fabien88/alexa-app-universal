@@ -46,9 +46,9 @@ ajv@^5.2.3, ajv@^5.3.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-alexa-app@4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/alexa-app/-/alexa-app-4.2.2.tgz#bc5a21b442765c0294514d20468438dee9989381"
+"alexa-app@https://github.com/fabien88/alexa-app.git/":
+  version "4.2.3"
+  resolved "https://github.com/fabien88/alexa-app.git/#684d92aab6d2b31812807e66ed3e0c5646e216f2"
   dependencies:
     "@types/chai-as-promised" "^7.1.0"
     alexa-utterances "^0.2.0"
