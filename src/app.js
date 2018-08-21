@@ -72,23 +72,33 @@ const getApp = ({
 
   const superHandler = handler => async (...args) => {
     // activate logging tags for lambda/cloudwatch
+    let exception = null;
     bindLogging();
 
     // Get deps
     let deps = await objectPromise(getDeps(dependencies, ...args));
-    console.inspect('Executing PreHandler');
-    await middlewareWithDepsExecutor(preMiddlewares, deps, ...args);
+    try {
+      console.inspect('Executing PreHandler');
+      await middlewareWithDepsExecutor(preMiddlewares, deps, ...args);
 
-    // Refresh deps, preHandler might have loaded some interesting values
-    deps = await objectPromise(getDeps(dependencies, ...args));
+      // Refresh deps, preHandler might have loaded some interesting values
+      deps = await objectPromise(getDeps(dependencies, ...args));
 
-    deps = { ...deps, delegateTo: delegateTo(deps, ...args) };
+      deps = { ...deps, delegateTo: delegateTo(deps, ...args) };
 
-    console.inspect('Executing Handler');
-    await benchFunction(R.curry(handler)(deps))(...args);
-
+      console.inspect('Executing Handler');
+      await benchFunction(R.curry(handler)(deps))(...args);
+    } catch (e) {
+      exception = e;
+    }
     console.inspect('Executing PostHandler');
-    await middlewareWithDepsExecutor(postMiddlewares, deps, ...args);
+    await middlewareWithDepsExecutor(
+      postMiddlewares,
+      deps,
+      ...args,
+      null,
+      exception,
+    );
   };
 
   // Inject dependencies into intents and apply all intents
