@@ -14,7 +14,7 @@ const builtInDependencies = {
 const getSay = (request, response) => {
   const say = response.say && response.say.bind(response);
   return (...args) => {
-    console.log({ say: { ...args } });
+    console.log({ say: args[0] });
     return say && say(...args);
   };
 };
