@@ -83,7 +83,7 @@ class CustomDirectives {
         req.on('error', err => reject(err));
       });
     };
-    this.delegateDialog = (updatedSlots, message) => {
+    this.delegateDialog = (updatedSlots = {}, message) => {
       if (message) {
         this.sayNow(message);
       }
