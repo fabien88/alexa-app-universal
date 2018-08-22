@@ -6,7 +6,7 @@ const logExceptionMiddleware = ({ t, say }) => (
 ) => {
   if (exception) {
     console.error(exception);
-    say(t('ERROR' || 'error'));
+    say(t('ERROR') || 'error');
     try {
       console.error(exception.stack.split('\n'));
     } catch (e) {}
