@@ -1,6 +1,12 @@
-const logExceptionMiddleware = () => (request, response, type, exception) => {
+const logExceptionMiddleware = ({ t, say }) => (
+  request,
+  response,
+  type,
+  exception,
+) => {
   if (exception) {
     console.error(exception);
+    say(t('ERROR'));
     try {
       console.error(exception.stack.split('\n'));
     } catch (e) {}
