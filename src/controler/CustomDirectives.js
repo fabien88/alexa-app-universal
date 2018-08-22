@@ -83,10 +83,28 @@ class CustomDirectives {
         req.on('error', err => reject(err));
       });
     };
+    this.delegateDialog = (updatedSlots, message) => {
+      if (message) {
+        this.sayNow(message);
+      }
+      const updatedIntent = request.data.request.intent;
+
+      Object.keys(updatedSlots).forEach((key) => {
+        const slot = updatedSlots[key];
+        updatedIntent.slots[key].value = slot;
+      });
+
+      response.directive({
+        type: 'Dialog.Delegate',
+        updatedIntent,
+      });
+      return response.shouldEndSession(false);
+    };
 
     this.getFunctions = () => ({
       sayNow: this.sayNow,
       getAddress: this.getAddress,
+      delegateDialog: this.delegateDialog,
     });
   }
 }
