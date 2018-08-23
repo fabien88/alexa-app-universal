@@ -90,6 +90,9 @@ class CustomDirectives {
       const intent = request.data.request.intent || { slots: {} };
       Object.keys(updatedSlots).forEach((key) => {
         const slot = updatedSlots[key];
+        if (!intent.slots[key]) {
+          intent.slots[key] = {};
+        }
         intent.slots[key].value = slot;
       });
       response.directive({
