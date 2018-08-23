@@ -100,7 +100,7 @@ class CustomDirectives {
       });
       response.directive({
         type: 'Dialog.Delegate',
-        intent,
+        updatedIntent: intent,
       });
       return response.shouldEndSession(false);
     };
