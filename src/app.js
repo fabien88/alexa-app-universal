@@ -80,15 +80,20 @@ const getApp = ({
     try {
       console.inspect('Executing PreHandler');
       deps = { ...deps, delegateTo: delegateTo(deps, ...args) };
-      await middlewareWithDepsExecutor(preMiddlewares, deps, ...args);
-
+      const preResults = await middlewareWithDepsExecutor(
+        preMiddlewares,
+        deps,
+        ...args,
+      );
       // Refresh deps, preHandler might have loaded some interesting values
       deps = await objectPromise(getDeps(dependencies, ...args));
 
       deps = { ...deps, delegateTo: delegateTo(deps, ...args) };
 
-      console.inspect('Executing Handler');
-      await benchFunction(R.curry(handler)(deps))(...args);
+      if (!R.any(R.equals(false))(preResults)) {
+        console.inspect('Executing Handler');
+        await benchFunction(R.curry(handler)(deps))(...args);
+      }
     } catch (e) {
       exception = e;
     }
