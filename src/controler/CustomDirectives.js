@@ -83,11 +83,14 @@ class CustomDirectives {
         req.on('error', err => reject(err));
       });
     };
-    this.delegateDialog = (updatedSlots = {}, message) => {
+    this.delegateDialog = (updatedSlots = {}, { intentName, message }) => {
       if (message) {
         this.sayNow(message);
       }
       const intent = request.data.request.intent || { slots: {} };
+      if (intentName) {
+        intent.name = intentName;
+      }
       Object.keys(updatedSlots).forEach((key) => {
         const slot = updatedSlots[key];
         if (!intent.slots[key]) {
