@@ -30,7 +30,10 @@ const getSay = (request, response) => {
   };
 };
 
-const keepSessionOpen = (request, response) => (keep = true) => response.shouldEndSession(!keep);
+const keepSessionOpen = (request, response) => {
+  const shouldEndSession = response.shouldEndSession.bind(response);
+  return (keep = true) => shouldEndSession(!keep);
+};
 
 // Feed deps with params
 const getDeps = (dependencies, ...args) => {
