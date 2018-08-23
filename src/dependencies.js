@@ -11,6 +11,14 @@ const builtInDependencies = {
   t,
 };
 
+const getIntentName = (request, response, type) => {
+  if (type === 'LaunchRequest') {
+    return 'LaunchRequest';
+  }
+  const intent = request.data.request.intent || {};
+  return intent.name;
+};
+
 const getSay = (request, response) => {
   const say = response.say && response.say.bind(response);
   return (...args) => {
@@ -27,9 +35,13 @@ const getDeps = (dependencies, ...args) => {
   let allDeps = {};
 
   // Mandatory deps
-  allDeps = { ...allDeps, slots: new Slots(...args).getAllSlots() };
-  allDeps = { ...allDeps, ...new CustomDirectives(...args).getFunctions() };
-  allDeps = { ...allDeps, say: getSay(...args) };
+  allDeps = {
+    ...allDeps,
+    slots: new Slots(...args).getAllSlots(),
+    ...new CustomDirectives(...args).getFunctions(),
+    say: getSay(...args),
+    intentName: getIntentName(...args),
+  };
 
   dependencies.forEach((dependencie) => {
     const initializedDependencie = dependencie(...args);
