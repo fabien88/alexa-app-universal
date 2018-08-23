@@ -79,6 +79,7 @@ const getApp = ({
     let deps = await objectPromise(getDeps(dependencies, ...args));
     try {
       console.inspect('Executing PreHandler');
+      deps = { ...deps, delegateTo: delegateTo(deps, ...args) };
       await middlewareWithDepsExecutor(preMiddlewares, deps, ...args);
 
       // Refresh deps, preHandler might have loaded some interesting values
@@ -119,9 +120,9 @@ const getApp = ({
 
   app.launch(superHandler(getLaunchIntent().handler));
 
-  app.audioPlayer('PlaybackFinished', (request, response) => {
-    response.audioPlayerClearQueue();
-  });
+  // app.audioPlayer('PlaybackFinished', (request, response) => {
+  //   response.audioPlayerClearQueue();
+  // });
 
   const customSlotTypes = getCustomSlotTypes(languageId);
   R.map(
