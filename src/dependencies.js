@@ -11,8 +11,8 @@ const builtInDependencies = {
   t,
 };
 
-const getIntentName = (request, response, type) => {
-  if (type === 'LaunchRequest') {
+const getIntentName = (request, response) => {
+  if (request.data.request.type === 'LaunchRequest') {
     return 'LaunchRequest';
   }
   const intent = request.data.request.intent || {};
