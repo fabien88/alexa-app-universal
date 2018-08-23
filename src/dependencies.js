@@ -30,6 +30,8 @@ const getSay = (request, response) => {
   };
 };
 
+const keepSessionOpen = (request, response) => response.shouldEndSession(false);
+
 // Feed deps with params
 const getDeps = (dependencies, ...args) => {
   let allDeps = {};
@@ -41,7 +43,7 @@ const getDeps = (dependencies, ...args) => {
     ...new CustomDirectives(...args).getFunctions(),
     say: getSay(...args),
     intentName: getIntentName(...args),
-    keepSessionOpen: (request, response) => response.shouldEndSession(false),
+    keepSessionOpen: keepSessionOpen(...args),
   };
 
   dependencies.forEach((dependencie) => {
