@@ -41,6 +41,7 @@ const getDeps = (dependencies, ...args) => {
     ...new CustomDirectives(...args).getFunctions(),
     say: getSay(...args),
     intentName: getIntentName(...args),
+    keepSessionOpen: (request, response) => response.shouldEndSession(false),
   };
 
   dependencies.forEach((dependencie) => {
