@@ -13,6 +13,7 @@ const getApp = ({
   launchIntent,
   dependencies,
   types,
+  loadSchema = false,
 }) => {
   const delegateTo = (deps, ...args) => (intentName, delegateParams) => {
     const filteredIntents = intents.filter(({ name }) => name === intentName);
@@ -129,14 +130,16 @@ const getApp = ({
   //   response.audioPlayerClearQueue();
   // });
 
-  const customSlotTypes = getCustomSlotTypes(languageId);
-  R.map(
-    R.compose(
-      ([...args]) => app.customSlot(...args),
-      ({ name, values }) => [name, values],
-    ),
-    customSlotTypes,
-  );
+  if (loadSchema) {
+    const customSlotTypes = getCustomSlotTypes(languageId);
+    R.map(
+      R.compose(
+        ([...args]) => app.customSlot(...args),
+        ({ name, values }) => [name, values],
+      ),
+      customSlotTypes,
+    );
+  }
 
   return {
     app,
@@ -147,7 +150,11 @@ const getApp = ({
 const writeSchema = ({
   modelDirPath, language, languageId, options,
 }) => {
-  const { app, invocationName } = getApp({ ...options, languageId });
+  const { app, invocationName } = getApp({
+    ...options,
+    languageId,
+    loadSchema: true,
+  });
   const model = app.schemas.askcli(invocationName);
   const filePath = `${modelDirPath}/${language}.json`;
   fs.writeFile(filePath, model, (err) => {
