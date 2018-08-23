@@ -87,17 +87,14 @@ class CustomDirectives {
       if (message) {
         this.sayNow(message);
       }
-      const updatedIntent = request.data.request.intent;
+      const intent = request.data.request.intent || { slots: {} };
       Object.keys(updatedSlots).forEach((key) => {
         const slot = updatedSlots[key];
-        if (!updatedIntent.slots[key]) {
-          throw new Error(`Slot key ${key} doesn't exists`);
-        }
-        updatedIntent.slots[key].value = slot;
+        intent.slots[key].value = slot;
       });
       response.directive({
         type: 'Dialog.Delegate',
-        updatedIntent,
+        intent,
       });
       return response.shouldEndSession(false);
     };
