@@ -20,10 +20,14 @@ const translatorForLanguages = (translations, fallbackLng = 'fr') => {
       returnObjects: true,
     });
     const t = (...args) => localizationClient.t(...args);
+
+    const { intent } = request.data.request;
+    const name = (intent && request.data.request.intent.name) || request.data.request.type;
+
     return {
       t,
-      tr: prop => (...arg) => {
-        const tr = R.curryN(2, t)(prop);
+      tr: (...arg) => {
+        const tr = R.curryN(2, t)(name);
         if (arg.length === 0) {
           return tr(null);
         }
