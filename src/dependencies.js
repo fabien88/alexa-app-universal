@@ -31,8 +31,8 @@ const getTypeMatcher = (...args) => (type) => {
 const builtInDependencies = {
   database: (tableName, region) => (...args) => ({
     database: new Database(tableName, region, ...args),
-    getTypeMatcher: getTypeMatcher(...args),
   }),
+  getTypeMatcher,
   t,
 };
 
