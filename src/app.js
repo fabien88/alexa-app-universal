@@ -1,6 +1,7 @@
 const alexa = require('alexa-app');
 const R = require('ramda');
 const fs = require('fs');
+const Slots = require('./model/Slots');
 const { bindLogging, benchFunction } = require('./logging');
 const { getDeps } = require('./dependencies');
 const { objectPromise } = require('./util');
@@ -25,6 +26,9 @@ const getApp = ({
     const filteredIntent = filteredIntents[0];
     return filteredIntent.handler({
       ...deps,
+      slots: new Slots(...args, {
+        options: filteredIntent.options,
+      }).getAllSlots(),
       delagated: true,
       delegateParams,
       delegateTo: delegateTo(deps, ...args),
