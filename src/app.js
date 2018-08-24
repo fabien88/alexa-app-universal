@@ -75,34 +75,34 @@ const getApp = ({
     // activate logging tags for lambda/cloudwatch
     let exception = null;
     bindLogging();
+    const getTypeMatcher = (type) => {
+      const [request] = args;
+      const lg = request.data.request.locale;
+      const equalsToType = R.equals(type);
+      const { values, flatValues } = R.filter(equalsToType(R.prop('name')))(
+        types,
+      )[0];
+      const valueToId = {};
+      const localType = flatValues
+        ? {}
+        : Object.keys(values).map((id) => {
+          values[id][lg].forEach((value) => {
+            valueToId[value] = id;
+          });
+          return {
+            id,
+            values: values[id][lg],
+          };
+        });
 
+      const getId = value => valueToId[value];
+      return { getId };
+    };
     // Get deps
     let deps = await objectPromise(getDeps(dependencies, ...args));
     deps = {
       ...deps,
-      getTypeMatcher: (type) => {
-        const [request] = args;
-        const lg = request.data.request.locale;
-        const equalsToType = R.equals(type);
-        const { values, flatValues } = R.filter(equalsToType(R.prop('name')))(
-          types,
-        )[0];
-        const valueToId = {};
-        const localType = flatValues
-          ? {}
-          : Object.keys(values).map((id) => {
-            values[id][lg].forEach((value) => {
-              valueToId[value] = id;
-            });
-            return {
-              id,
-              values: values[id][lg],
-            };
-          });
-
-        const getId = value => valueToId[value];
-        return { getId };
-      },
+      getTypeMatcher,
     };
     try {
       console.inspect('Executing PreHandler');
@@ -115,7 +115,7 @@ const getApp = ({
       // Refresh deps, preHandler might have loaded some interesting values
       deps = await objectPromise(getDeps(dependencies, ...args));
 
-      deps = { ...deps, delegateTo: delegateTo(deps, ...args) };
+      deps = { ...deps, getTypeMatcher, delegateTo: delegateTo(deps, ...args) };
 
       if (!R.any(R.equals(false))(preResults)) {
         console.inspect('Executing Handler');
