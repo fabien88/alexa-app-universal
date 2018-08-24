@@ -95,7 +95,7 @@ class CustomDirectives {
       });
 
       response.directive({
-        ...{ directive },
+        ...directive,
         updatedIntent,
       });
       return response.shouldEndSession(false);
