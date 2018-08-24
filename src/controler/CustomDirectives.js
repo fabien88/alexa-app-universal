@@ -85,6 +85,7 @@ class CustomDirectives {
     };
 
     this.sendDialogDirective = (directive, updatedSlots = {}) => {
+      console.log({ updatedSlots });
       const updatedIntent = request.data.request.intent || { slots: {} };
       Object.keys(updatedSlots).forEach((key) => {
         const slot = updatedSlots[key];
