@@ -71,7 +71,7 @@ const getApp = ({
     ),
   );
 
-  const superHandler = handler => async (...args) => {
+  const superHandler = ({ options, handler }) => async (...args) => {
     // activate logging tags for lambda/cloudwatch
     let exception = null;
     bindLogging();
@@ -104,7 +104,7 @@ const getApp = ({
     };
 
     // Get deps
-    let deps = await objectPromise(getDeps(dependencies, ...args));
+    let deps = await objectPromise(getDeps(dependencies, ...args, { options }));
     deps = {
       ...deps,
       getTypeMatcher,
@@ -118,7 +118,7 @@ const getApp = ({
         ...args,
       );
       // Refresh deps, preHandler might have loaded some interesting values
-      deps = await objectPromise(getDeps(dependencies, ...args));
+      deps = await objectPromise(getDeps(dependencies, ...args, { options }));
 
       deps = { ...deps, getTypeMatcher, delegateTo: delegateTo(deps, ...args) };
 
@@ -143,7 +143,7 @@ const getApp = ({
   const intentWithDeps = ({ name, options, handler }) => ({
     name,
     options,
-    handler: superHandler(handler),
+    handler: superHandler({ name, options, handler }),
   });
 
   const applyIntent = ({ name, options, handler }) => app.intent(name, options, handler);
@@ -155,7 +155,7 @@ const getApp = ({
     getIntents(languageId),
   );
 
-  app.launch(superHandler(getLaunchIntent().handler));
+  app.launch(superHandler({ handler: getLaunchIntent().handler }));
 
   // app.audioPlayer('PlaybackFinished', (request, response) => {
   //   response.audioPlayerClearQueue();
