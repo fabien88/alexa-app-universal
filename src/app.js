@@ -78,11 +78,14 @@ const getApp = ({
 
     const getTypeMatcher = (type) => {
       const [request] = args;
-      const lg = request.data.request.locale;
+      const lg = request.data.request.locale.substring(0, 2);
       const equalsToType = R.equals(type);
-      const { values, flatValues } = R.filter(equalsToType(R.prop('name')))(
-        types,
-      )[0];
+      const { values, flatValues } = R.filter(
+        R.compose(
+          equalsToType,
+          R.prop('name'),
+        ),
+      )(types)[0];
       const valueToId = {};
       const localType = flatValues
         ? {}
