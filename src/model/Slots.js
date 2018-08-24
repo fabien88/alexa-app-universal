@@ -8,7 +8,13 @@ const defaultUser = {
 };
 
 class Slots {
-  constructor(request, response, { options: { slots } } = { options: {} }) {
+  constructor(
+    request,
+    response,
+    {
+      options: { slots },
+    },
+  ) {
     this.allSlots = {};
     // Default value for all slots
     Object.keys(slots).forEach((slotKey) => {

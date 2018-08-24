@@ -159,7 +159,7 @@ const getApp = ({
     getIntents(languageId),
   );
 
-  app.launch(superHandler({ handler: getLaunchIntent().handler }));
+  app.launch(superHandler({ options: {}, handler: getLaunchIntent().handler }));
 
   // app.audioPlayer('PlaybackFinished', (request, response) => {
   //   response.audioPlayerClearQueue();
