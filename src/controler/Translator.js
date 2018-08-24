@@ -19,8 +19,16 @@ const translatorForLanguages = (translations, fallbackLng = 'fr') => {
       resources,
       returnObjects: true,
     });
+    const t = (...args) => localizationClient.t(...args);
     return {
-      t: (...args) => localizationClient.t(...args),
+      t,
+      tr: prop => (...arg) => {
+        const tr = R.curryN(2, t)(prop);
+        if (arg.length === 0) {
+          return tr(null);
+        }
+        return tr(...arg);
+      },
     };
   };
 
