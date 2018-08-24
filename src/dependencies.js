@@ -1,7 +1,7 @@
+const R = require('ramda');
 const Database = require('./controler/Database');
 const t = require('./controler/Translator');
 const CustomDirectives = require('./controler/CustomDirectives');
-
 const Slots = require('./model/Slots');
 
 const getTypeMatcher = (...args) => (type) => {
@@ -9,7 +9,7 @@ const getTypeMatcher = (...args) => (type) => {
   const lg = request.data.request.locale;
   const equalsToType = R.equals(type);
   const { values, flatValues } = R.filter(equalsToType(R.prop('name')))(
-    types,
+    type,
   )[0];
   const valueToId = {};
   const localType = flatValues
