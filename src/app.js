@@ -76,6 +76,30 @@ const getApp = ({
     let exception = null;
     bindLogging();
 
+    const getTypeMatcher = (type) => {
+      const [request] = args;
+      const lg = request.data.request.locale;
+      const equalsToType = R.equals(type);
+      const { values, flatValues } = R.filter(equalsToType(R.prop('name')))(
+        types,
+      )[0];
+      const valueToId = {};
+      const localType = flatValues
+        ? {}
+        : Object.keys(values).map((id) => {
+          values[id][lg].forEach((value) => {
+            valueToId[value] = id;
+          });
+          return {
+            id,
+            values: values[id][lg],
+          };
+        });
+
+      const getId = value => valueToId[value];
+      return { getId };
+    };
+
     // Get deps
     let deps = await objectPromise(getDeps(dependencies, ...args));
     deps = {
