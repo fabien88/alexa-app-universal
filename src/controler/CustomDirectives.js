@@ -135,6 +135,9 @@ class CustomDirectives {
       sayNow: this.sayNow,
       getAddress: this.getAddress,
       delegateDialog: this.delegateDialog,
+      elicitSlot: this.elicitSlot,
+      confirmSlot: this.confirmSlot,
+      confirmIntent: this.confirmIntent,
     });
   }
 }
