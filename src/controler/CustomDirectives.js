@@ -98,7 +98,7 @@ class CustomDirectives {
         }
         intent.slots[key].value = slot;
       });
-      console.log({ intent });
+
       response.directive({
         type: 'Dialog.Delegate',
         updatedIntent: intent,
