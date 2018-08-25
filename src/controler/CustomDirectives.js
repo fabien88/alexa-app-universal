@@ -101,7 +101,7 @@ class CustomDirectives {
           };
         });
       }
-      Object.keys(updatedSlots).forEach((key) => {
+      Object.keys(updatedSlots || {}).forEach((key) => {
         const slot = updatedSlots[key];
         if (!updatedIntent.slots[key]) {
           updatedIntent.slots[key] = {};
