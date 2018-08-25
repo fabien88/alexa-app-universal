@@ -167,8 +167,7 @@ const getApp = ({
         console.inspect('Executing Handler');
 
         const handleFunc = handler(deps);
-        console.log({ handleFunc, type: R.type(handleFunc) });
-        if (R.type(handleFunc) === 'Function') {
+        if (R.type(handleFunc) !== 'Object') {
           await handleFunc(...args);
         } else {
           // handle is an object containing slot dialog events
