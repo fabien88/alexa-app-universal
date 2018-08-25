@@ -124,7 +124,7 @@ class CustomDirectives {
       updatedSlots,
     );
 
-    this.confirmIntent = (targetSlot, updatedSlots) => this.sendDialogDirective(
+    this.confirmIntent = updatedSlots => this.sendDialogDirective(
       {
         type: 'Dialog.ConfirmIntent',
       },
