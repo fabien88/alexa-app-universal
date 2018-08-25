@@ -24,8 +24,11 @@ const getDeps = (dependencies, ...args) => {
   let allDeps = {};
 
   const keepSessionOpen = (request, response) => (keep = true) => {
-    console.log({ res: response.response });
-    return response.shouldEndSession(!keep);
+    console.log({ resB: response.response });
+    const res = response.shouldEndSession(!keep);
+    console.log({ resA: response.response });
+
+    return res;
   };
 
   // Mandatory deps
