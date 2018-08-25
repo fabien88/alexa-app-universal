@@ -23,9 +23,7 @@ const getIntentName = (request) => {
 const getDeps = (dependencies, ...args) => {
   let allDeps = {};
 
-  const keepSessionOpen = (request, response) => (keep = true) => {
-    response.shouldEndSession(!keep);
-  };
+  const keepSessionOpen = (request, response) => (keep = true) => response.shouldEndSession(!keep);
 
   // Mandatory deps
   allDeps = {
