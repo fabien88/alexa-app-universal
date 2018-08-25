@@ -19,20 +19,6 @@ const getIntentName = (request, response) => {
   return intent.name;
 };
 
-const getSay = (request, response) => {
-  const say = response.say && response.say.bind(response);
-  return (...args) => {
-    if (args.length === 0 || !args[0]) {
-      return say && say(...args);
-    }
-    console.log({ say: args[0] });
-    if (args[0].endsWith('?')) {
-      return say && say(args[0]);
-    }
-    return say && say(`${args[0]}. `);
-  };
-};
-
 const keepSessionOpen = (request, response) => {
   const shouldEndSession = response.shouldEndSession.bind(response);
   return (keep = true) => shouldEndSession(!keep);
@@ -47,7 +33,6 @@ const getDeps = (dependencies, ...args) => {
     ...allDeps,
     slots: new Slots(...args).getAllSlots(),
     ...new CustomDirectives(...args).getFunctions(),
-    say: getSay(...args),
     intentName: getIntentName(...args),
     keepSessionOpen: keepSessionOpen(...args),
   };

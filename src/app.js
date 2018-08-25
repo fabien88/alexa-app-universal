@@ -6,6 +6,8 @@ const { bindLogging, benchFunction } = require('./logging');
 const { getDeps } = require('./dependencies');
 const { objectPromise } = require('./util');
 
+const getSayOK = ({ t, say }) => () => say(t('OK'));
+
 const getApp = ({
   languageId = 'en',
   preMiddlewares,
@@ -19,13 +21,14 @@ const getApp = ({
   const delegateTo = (deps, ...args) => (intentName, delegateParams) => {
     const filteredIntents = intents.filter(({ name }) => name === intentName);
     if (filteredIntents.length === 0 || filteredIntents.length > 1) {
-      console.error(
+      throw new Error(
         `No intent or more than two handler found for : ${intentName}`,
       );
     }
     const filteredIntent = filteredIntents[0];
     return filteredIntent.handler({
       ...deps,
+      sayOK: getSayOK(deps),
       slots: new Slots(...args, {
         options: filteredIntent.options,
       }).getAllSlots(),
@@ -111,6 +114,7 @@ const getApp = ({
     let deps = await objectPromise(getDeps(dependencies, ...args, { options }));
     deps = {
       ...deps,
+      sayOK: getSayOK(deps),
       getTypeMatcher,
     };
     try {
@@ -122,9 +126,12 @@ const getApp = ({
         ...args,
       );
       // Refresh deps, preHandler might have loaded some interesting values
-      deps = await objectPromise(getDeps(dependencies, ...args, { options }));
-
-      deps = { ...deps, getTypeMatcher, delegateTo: delegateTo(deps, ...args) };
+      const refreshedDeps = await objectPromise(
+        getDeps(dependencies, ...args, { options }),
+      );
+      deps = { ...deps, ...refreshedDeps, getTypeMatcher };
+      // In 2 steps /!\ needed
+      deps = { ...deps, delegateTo: delegateTo(deps, ...args) };
 
       if (!R.any(R.equals(false))(preResults)) {
         console.inspect('Executing Handler');

@@ -3,6 +3,8 @@ const url = require('url');
 
 class CustomDirectives {
   constructor(request, response) {
+    const say = response.say && response.say.bind(response);
+
     this.sayNow = (speech) => {
       if (!speech) {
         return true;
@@ -131,8 +133,20 @@ class CustomDirectives {
       updatedSlots,
     );
 
+    this.getSay = () => (...args) => {
+      if (args.length === 0 || !args[0]) {
+        return say && say(...args);
+      }
+      console.log({ say: args[0] });
+      if (args[0].endsWith('?')) {
+        return say && say(args[0]);
+      }
+      return say && say(`${args[0]}. `);
+    };
+
     this.getFunctions = () => ({
       sayNow: this.sayNow,
+      say: this.getSay(),
       getAddress: this.getAddress,
       dialog: {
         delegate: this.delegateDialog,
