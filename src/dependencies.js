@@ -26,7 +26,7 @@ const getSay = (request, response) => {
       return say && say(...args);
     }
     console.log({ say: args[0] });
-    return say && say(...args);
+    return say && say(`${args[0]}. `);
   };
 };
 
