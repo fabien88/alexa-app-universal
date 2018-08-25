@@ -113,7 +113,7 @@ class CustomDirectives {
         type: 'Dialog.ElicitSlot',
         slotToElicit: targetSlot,
       },
-      updatedSlots,
+      { ...updatedSlots, [targetSlot]: null },
     );
 
     this.confirmSlot = (targetSlot, updatedSlots) => this.sendDialogDirective(
