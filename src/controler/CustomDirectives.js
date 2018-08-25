@@ -96,6 +96,7 @@ class CustomDirectives {
         Object.keys(updatedIntent.slots).forEach((key) => {
           updatedIntent.slots[key] = {
             value: null,
+            name: key,
             confirmationStatus: 'NONE',
           };
         });
