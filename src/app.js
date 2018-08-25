@@ -167,6 +167,7 @@ const getApp = ({
         console.inspect('Executing Handler');
 
         const handleFunc = handler(deps);
+        console.log({ handleFunc });
         if (R.type(handleFunc) === 'Function') {
           await handleFunc(...args);
         } else {
