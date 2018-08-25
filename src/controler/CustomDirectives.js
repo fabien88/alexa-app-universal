@@ -116,7 +116,7 @@ class CustomDirectives {
       return response.shouldEndSession(false);
     };
 
-    this.delegateDialog = (updatedSlots, reset) => this.sendDialogDirective(
+    this.delegateDialog = (updatedSlots, unused, reset) => this.sendDialogDirective(
       {
         type: 'Dialog.Delegate',
       },
@@ -142,7 +142,7 @@ class CustomDirectives {
       reset,
     );
 
-    this.confirmIntent = (updatedSlots, reset) => this.sendDialogDirective(
+    this.confirmIntent = (updatedSlots, unused, reset) => this.sendDialogDirective(
       {
         type: 'Dialog.ConfirmIntent',
       },
