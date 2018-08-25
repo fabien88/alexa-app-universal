@@ -20,7 +20,8 @@ const getIntentName = (request, response) => {
 };
 
 const keepSessionOpen = (request, response) => {
-  const shouldEndSession = response.shouldEndSession.bind(response);
+  const thisResponse = response.bind(response);
+  const { shouldEndSession } = thisResponse;
   return (keep = true) => {
     console.log({ shouldEndSession });
     console.log({ keep });
