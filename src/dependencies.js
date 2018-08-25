@@ -21,7 +21,11 @@ const getIntentName = (request, response) => {
 
 const keepSessionOpen = (request, response) => {
   const shouldEndSession = response.shouldEndSession.bind(response);
-  return (keep = true) => shouldEndSession(!keep);
+  return (keep = true) => {
+    console.log({ shouldEndSession });
+    console.log({ keep });
+    shouldEndSession(!keep);
+  };
 };
 
 // Feed deps with params
