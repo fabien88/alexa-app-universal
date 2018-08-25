@@ -95,7 +95,7 @@ class CustomDirectives {
         }
         updatedIntent.slots[key].value = slot;
       });
-
+      updatedIntent.confirmationStatus = 'NONE';
       response.directive({
         ...directive,
         updatedIntent,
