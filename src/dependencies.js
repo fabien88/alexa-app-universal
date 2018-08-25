@@ -25,7 +25,7 @@ const getDeps = (dependencies, ...args) => {
 
   const keepSessionOpen = (request, response) => (keep = true) => {
     console.log({ resB: response.response });
-    response.response.shouldEndSession = !keep;
+    response.response.shouldEndSession = false;
     const res = response;
     // const res = response.shouldEndSession(!keep);
     console.log({ resA: response.response, res: res.response });
