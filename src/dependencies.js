@@ -11,7 +11,7 @@ const builtInDependencies = {
   t,
 };
 
-const getIntentName = (request, response) => {
+const getIntentName = (request) => {
   if (request.data.request.type === 'LaunchRequest') {
     return 'LaunchRequest';
   }
@@ -19,19 +19,20 @@ const getIntentName = (request, response) => {
   return intent.name;
 };
 
-const keepSessionOpen = (request, response) => {
-  const thisResponse = response;
-  const { shouldEndSession } = thisResponse;
-  return (keep = true) => {
-    console.log({ shouldEndSession });
-    console.log({ keep });
-    shouldEndSession(!keep);
-  };
-};
-
 // Feed deps with params
 const getDeps = (dependencies, ...args) => {
   let allDeps = {};
+
+  const keepSessionOpen = (request, response) => {
+    const shouldEndSession = response.shouldEndSession.bind(
+      response.shouldEndSession,
+    );
+    return (keep = true) => {
+      console.log({ shouldEndSession });
+      console.log({ keep });
+      shouldEndSession(!keep);
+    };
+  };
 
   // Mandatory deps
   allDeps = {
