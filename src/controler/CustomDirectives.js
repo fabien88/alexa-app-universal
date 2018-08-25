@@ -134,11 +134,13 @@ class CustomDirectives {
     this.getFunctions = () => ({
       sayNow: this.sayNow,
       getAddress: this.getAddress,
-      delegateDialog: this.delegateDialog,
-      elicitSlot: this.elicitSlot,
-      confirmSlot: this.confirmSlot,
-      confirmIntent: this.confirmIntent,
-      dialogState: request.getDialog().dialogState,
+      dialog: {
+        delegate: this.delegateDialog,
+        elicitSlot: this.elicitSlot,
+        confirmSlot: this.confirmSlot,
+        confirmIntent: this.confirmIntent,
+        state: request.getDialog().dialogState,
+      },
       intent: {
         denied: request.data.request.intent.confirmationStatus === 'DENIED',
         confirmed:
