@@ -18,6 +18,36 @@ const getApp = ({
   types,
   loadSchema = false,
 }) => {
+  const getNextSlotFilled = ({ options, slots, intent }) => {
+    if (intent.denied) {
+      return 'intentDenied';
+    }
+    if (intent.confirmed) {
+      return 'intentConfirmed';
+    }
+    const slotKeys = Object.keys(options.slots);
+    const events = ['initied'];
+    for (let i = 0; i < slotKeys.length; ++i) {
+      const slotKey = slotKeys[i];
+      const slot = slots[slotKey];
+      const eventsLength = events.length;
+      if (!R.isNil(slot.userValue)) {
+        events.push(`${slotKey}Filled`);
+        if (slot.confirmed) {
+          events.push(`${slotKey}Confirmed`);
+        }
+        if (slot.denied) {
+          events.push(`${slotKey}Denied`);
+        }
+      }
+
+      if (eventsLength === events.length && !options.slots[slotKey].optional) {
+        break;
+      }
+    }
+    return R.last(events);
+  };
+
   const delegateTo = (deps, ...args) => (intentName, delegateParams) => {
     const filteredIntents = intents.filter(({ name }) => name === intentName);
     if (filteredIntents.length === 0 || filteredIntents.length > 1) {
@@ -135,7 +165,21 @@ const getApp = ({
 
       if (!R.any(R.equals(false))(preResults)) {
         console.inspect('Executing Handler');
-        await benchFunction(R.curry(handler)(deps))(...args);
+        const slotEvent = getNextSlotFilled({
+          options,
+          intent: deps.intent,
+          slots: deps.slots,
+        });
+
+        const handleFunc = handler(deps);
+        if (handleFunc[slotEvent]) {
+          await handleFunc[slotEvent](...args);
+        } else {
+          if (R.type(handleFunc) !== 'Function') {
+            throw new Error(`Missing event handler for : ${slotEvent}`);
+          }
+          await handleFunc(...args);
+        }
       }
     } catch (e) {
       exception = e;

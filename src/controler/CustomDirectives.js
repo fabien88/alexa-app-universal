@@ -86,8 +86,20 @@ class CustomDirectives {
       });
     };
 
-    this.sendDialogDirective = (directive, updatedSlots = {}) => {
+    this.sendDialogDirective = (
+      directive,
+      updatedSlots = {},
+      reset = false,
+    ) => {
       const updatedIntent = request.data.request.intent || { slots: {} };
+      if (reset) {
+        Object.keys(updatedIntent.slots).forEach((key) => {
+          updatedIntent.slots[key] = {
+            value: null,
+            confirmationStatus: 'NONE',
+          };
+        });
+      }
       Object.keys(updatedSlots).forEach((key) => {
         const slot = updatedSlots[key];
         if (!updatedIntent.slots[key]) {
@@ -104,34 +116,38 @@ class CustomDirectives {
       return response.shouldEndSession(false);
     };
 
-    this.delegateDialog = updatedSlots => this.sendDialogDirective(
+    this.delegateDialog = (updatedSlots, reset) => this.sendDialogDirective(
       {
         type: 'Dialog.Delegate',
       },
       updatedSlots,
+      reset,
     );
 
-    this.elicitSlot = (targetSlot, updatedSlots) => this.sendDialogDirective(
+    this.elicitSlot = (targetSlot, updatedSlots, reset) => this.sendDialogDirective(
       {
         type: 'Dialog.ElicitSlot',
         slotToElicit: targetSlot,
       },
       { ...updatedSlots, [targetSlot]: null },
+      reset,
     );
 
-    this.confirmSlot = (targetSlot, updatedSlots) => this.sendDialogDirective(
+    this.confirmSlot = (targetSlot, updatedSlots, reset) => this.sendDialogDirective(
       {
         type: 'Dialog.ConfirmSlot',
         slotToConfirm: targetSlot,
       },
       updatedSlots,
+      reset,
     );
 
-    this.confirmIntent = updatedSlots => this.sendDialogDirective(
+    this.confirmIntent = (updatedSlots, reset) => this.sendDialogDirective(
       {
         type: 'Dialog.ConfirmIntent',
       },
       updatedSlots,
+      reset,
     );
 
     this.getSay = () => (...args) => {
