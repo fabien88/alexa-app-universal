@@ -142,9 +142,12 @@ class CustomDirectives {
         state: request.getDialog().dialogState,
       },
       intent: {
-        denied: request.data.request.intent.confirmationStatus === 'DENIED',
+        denied:
+          request.data.request.intent
+          && request.data.request.intent.confirmationStatus === 'DENIED',
         confirmed:
-          request.data.request.intent.confirmationStatus === 'CONFIRMED',
+          request.data.request.intent
+          && request.data.request.intent.confirmationStatus === 'CONFIRMED',
       },
     });
   }

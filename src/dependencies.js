@@ -26,6 +26,9 @@ const getSay = (request, response) => {
       return say && say(...args);
     }
     console.log({ say: args[0] });
+    if (args[0].endsWith('?')) {
+      return say && say(args[0]);
+    }
     return say && say(`${args[0]}. `);
   };
 };
