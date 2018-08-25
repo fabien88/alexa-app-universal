@@ -23,6 +23,8 @@ class Slots {
       result.firstResolution = result.resolutions && slot.resolutions[0];
       result.matched = result.firstResolution && result.firstResolution.isMatched();
       result.userValue = slot.value;
+      result.confirmed = slot.confirmationStatus === 'CONFIRMED';
+      result.denied = slot.confirmationStatus === 'DENIED';
 
       if (result.matched) {
         const { name, id } = result.firstResolution.first();
