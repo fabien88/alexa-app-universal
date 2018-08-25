@@ -131,8 +131,6 @@ class CustomDirectives {
       updatedSlots,
     );
 
-    this.getDialogState = () => request.getDialog().dialogState;
-
     this.getFunctions = () => ({
       sayNow: this.sayNow,
       getAddress: this.getAddress,
@@ -140,7 +138,12 @@ class CustomDirectives {
       elicitSlot: this.elicitSlot,
       confirmSlot: this.confirmSlot,
       confirmIntent: this.confirmIntent,
-      dialogState: this.getDialogState(),
+      dialogState: request.getDialog().dialogState,
+      intent: {
+        denied: request.data.request.intent.confirmationStatus === 'DENIED',
+        confirmed:
+          request.data.request.intent.confirmationStatus === 'CONFIRMED',
+      },
     });
   }
 }
