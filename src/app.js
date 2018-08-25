@@ -165,20 +165,22 @@ const getApp = ({
 
       if (!R.any(R.equals(false))(preResults)) {
         console.inspect('Executing Handler');
-        const slotEvent = getNextSlotFilled({
-          options,
-          intent: deps.intent,
-          slots: deps.slots,
-        });
 
         const handleFunc = handler(deps);
-        if (handleFunc[slotEvent]) {
-          await handleFunc[slotEvent](...args);
+        if (R.type(handleFunc) === 'Function') {
+          await handleFunc(...args);
         } else {
-          if (R.type(handleFunc) !== 'Function') {
+          // handle is an object containing slot dialog events
+          const slotEvent = getNextSlotFilled({
+            options,
+            intent: deps.intent,
+            slots: deps.slots,
+          });
+          if (handleFunc[slotEvent]) {
+            await handleFunc[slotEvent](...args);
+          } else {
             throw new Error(`Missing event handler for : ${slotEvent}`);
           }
-          await handleFunc(...args);
         }
       }
     } catch (e) {
