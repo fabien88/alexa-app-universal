@@ -151,6 +151,17 @@ class CustomDirectives {
       reset,
     );
 
+    this.wipeSlots = () => {
+      const updatedIntent = request.data.request.intent || { slots: {} };
+      Object.keys(updatedIntent.slots).forEach((key) => {
+        updatedIntent.slots[key] = {
+          value: null,
+          name: key,
+          confirmationStatus: 'NONE',
+        };
+      });
+    };
+
     this.getSay = () => (...args) => {
       if (args.length === 0 || !args[0]) {
         return say && say(...args);
@@ -171,6 +182,7 @@ class CustomDirectives {
         elicitSlot: this.elicitSlot,
         confirmSlot: this.confirmSlot,
         confirmIntent: this.confirmIntent,
+        wipeSlots: this.wipeSlots,
         state: request.getDialog().dialogState,
       },
       intent: {
