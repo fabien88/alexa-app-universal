@@ -4,6 +4,7 @@ const url = require('url');
 class CustomDirectives {
   constructor(request, response) {
     const say = response.say && response.say.bind(response);
+    const reprompt = response.reprompt && response.reprompt.bind(response);
 
     this.sayNow = (speech) => {
       if (!speech) {
@@ -176,6 +177,7 @@ class CustomDirectives {
     this.getFunctions = () => ({
       sayNow: this.sayNow,
       say: this.getSay(),
+      reprompt,
       getAddress: this.getAddress,
       dialog: {
         delegate: this.delegateDialog,
