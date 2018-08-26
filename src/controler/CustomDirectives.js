@@ -16,7 +16,7 @@ class CustomDirectives {
         },
         directive: {
           type: 'VoicePlayer.Speak',
-          speech: `${speech}. `,
+          speech: `${speech}`,
         },
       };
 
