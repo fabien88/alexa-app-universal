@@ -168,7 +168,7 @@ class CustomDirectives {
         return say && say(...args);
       }
       console.log({ say: args[0] });
-      if (args[0].endsWith('?') || args[0].endsWith(' ')) {
+      if (args[0].match(new RegExp('.*(\\?|\\s|\\!)(\\</speak\\>)?$'))) {
         return say && say(args[0]);
       }
       return say && say(`${args[0]}. `);
