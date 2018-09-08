@@ -1,11 +1,13 @@
 const https = require('https');
 const url = require('url');
 
+const regexDot = new RegExp('.*(\\?|\\s|\\!|\\>|\\.)$');
+
 class CustomDirectives {
   constructor(request, response) {
     const say = response.say && response.say.bind(response);
     const reprompt = response.reprompt && response.reprompt.bind(response);
-
+    this.regexDot = regexDot;
     this.sayNow = (speech) => {
       if (!speech) {
         return true;
@@ -168,7 +170,7 @@ class CustomDirectives {
         return say && say(...args);
       }
       console.log({ say: args[0] });
-      if (args[0].match(new RegExp('.*(\\?|\\s|\\!)(\\</speak\\>)?$'))) {
+      if (args[0].match(regexDot)) {
         return say && say(args[0]);
       }
       return say && say(`${args[0]}. `);

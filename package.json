@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "npm run test-unit",
-    "test-watch": "NODE_ENV=test mocha --watch --require co-mocha '*.spec.js'",
-    "test-unit": "NODE_ENV=test mocha --require co-mocha '*.spec.js'",
+    "test-watch": "NODE_ENV=test mocha --watch --require co-mocha './src/**/*.spec.js'",
+    "test-unit": "NODE_ENV=test mocha --require co-mocha './src/**/*.spec.js'",
     "buildSchema": "node index.js schema",
     "deploy": "npm run buildSchema && ask deploy --no-wait --force",
     "deployLambda": "npm run buildSchema schema && ask deploy -t lambda",
@@ -30,6 +30,11 @@
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.13.0"
+    "eslint-plugin-import": "^2.13.0",
+    "chai": "3.5.0",
+    "co-mocha": "1.1.2",
+    "mocha": "2.5.3",
+    "sinon": "1.17.4",
+    "sinon-chai": "2.8.0"
   }
 }
