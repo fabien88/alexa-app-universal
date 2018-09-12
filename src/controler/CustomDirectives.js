@@ -95,6 +95,7 @@ class CustomDirectives {
       reset = false,
     ) => {
       const updatedIntent = request.data.request.intent || { slots: {} };
+      console.log({ updatedIntent });
       if (reset) {
         Object.keys(updatedIntent.slots).forEach((key) => {
           updatedIntent.slots[key] = {
