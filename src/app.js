@@ -56,7 +56,8 @@ const getApp = ({
       );
     }
     const filteredIntent = filteredIntents[0];
-    return filteredIntent.handler({
+
+    const handleFunc = filteredIntent.handler({
       ...deps,
       sayOK: getSayOK(deps),
       slots: new Slots(...args, {
@@ -65,7 +66,20 @@ const getApp = ({
       delagated: true,
       delegateParams,
       delegateTo: delegateTo(deps, ...args),
-    })(...args);
+    });
+    if (R.type(handleFunc) !== 'Object') {
+      return handleFunc(...args);
+    }
+    // handle is an object containing slot dialog events
+    const slotEvent = getNextSlotFilled({
+      options: filteredIntent.options,
+      intent: deps.intent,
+      slots: deps.slots,
+    });
+    if (handleFunc[slotEvent]) {
+      return handleFunc[slotEvent](...args);
+    }
+    throw new Error(`Missing event handler for : ${slotEvent}`);
   };
 
   const getCustomSlotTypes = language => types.map(({ name, values, flatValues }) => ({
