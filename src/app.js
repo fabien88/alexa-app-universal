@@ -26,7 +26,6 @@ const getApp = ({
       return 'intentConfirmed';
     }
     const slotKeys = Object.keys(options.slots);
-    console.log({ slots, optionsSlots: slotKeys });
     const events = ['initied'];
     for (let i = 0; i < slotKeys.length; ++i) {
       const slotKey = slotKeys[i];
