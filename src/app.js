@@ -65,8 +65,7 @@ const getApp = ({
       ...deps,
       sayOK: getSayOK(deps),
       slots: newSlots,
-      delagated: true,
-      cameFromDelagated: true,
+      delegated: true,
       delegateParams,
       delegateTo: delegateTo(deps, ...args),
     });
