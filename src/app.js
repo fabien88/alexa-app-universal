@@ -26,7 +26,6 @@ const getApp = ({
       return 'intentConfirmed';
     }
     const slotKeys = Object.keys(options.slots);
-    console.log({ slots, optionsSlots: slotKeys });
     const events = ['initied'];
     for (let i = 0; i < slotKeys.length; ++i) {
       const slotKey = slotKeys[i];
@@ -58,12 +57,13 @@ const getApp = ({
     }
     const filteredIntent = filteredIntents[0];
 
+    const newSlots = new Slots(...args, {
+      options: filteredIntent.options,
+    }).getAllSlots();
     const handleFunc = filteredIntent.handler({
       ...deps,
       sayOK: getSayOK(deps),
-      slots: new Slots(...args, {
-        options: filteredIntent.options,
-      }).getAllSlots(),
+      slots: newSlots,
       delagated: true,
       delegateParams,
       delegateTo: delegateTo(deps, ...args),
@@ -75,7 +75,7 @@ const getApp = ({
     const slotEvent = getNextSlotFilled({
       options: filteredIntent.options,
       intent: deps.intent,
-      slots: deps.slots,
+      slots: newSlots,
     });
     if (handleFunc[slotEvent]) {
       return handleFunc[slotEvent](...args);
