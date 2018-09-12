@@ -60,11 +60,13 @@ const getApp = ({
     const newSlots = new Slots(...args, {
       options: filteredIntent.options,
     }).getAllSlots();
+    console.log('**** DELEGATE ***');
     const handleFunc = filteredIntent.handler({
       ...deps,
       sayOK: getSayOK(deps),
       slots: newSlots,
       delagated: true,
+      cameFromDelagated: true,
       delegateParams,
       delegateTo: delegateTo(deps, ...args),
     });
