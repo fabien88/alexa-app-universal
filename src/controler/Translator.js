@@ -12,7 +12,12 @@ const translatorForLanguages = (translations, fallbackLng = 'fr') => {
 
   const translator = (request) => {
     const localizationClient = i18n
-      .use((arg0, ...args) => sprintf(R.replace(/%'/, "%%'", arg0), ...args))
+      .use({
+        name: 'sprintf',
+        type: 'postProcessor',
+        process: (arg0, ...args) => sprintf.process(R.replace(/%'/, "%%'", arg0), ...args),
+        overloadTranslationOptionHandler: (...args) => sprintf.overloadTranslationOptionHandler(...args),
+      })
       .init({
         lng: request.data.request.locale,
         fallbackLng,
