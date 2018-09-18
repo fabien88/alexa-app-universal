@@ -1,5 +1,6 @@
 const https = require('https');
 const url = require('url');
+const R = require('ramda');
 
 const regexDot = new RegExp('.*(\\?|\\s|\\!|\\>|\\.)$');
 
@@ -170,11 +171,15 @@ class CustomDirectives {
       if (args.length === 0 || !args[0]) {
         return say && say(...args);
       }
-      console.log({ say: args[0] });
-      if (args[0].match(regexDot)) {
-        return say && say(args[0]);
+      let toSay = args[0];
+      if (R.type(toSay) === 'Array') {
+        toSay = toSay[Math.floor(Math.random() * toSay.length)];
       }
-      return say && say(`${args[0]}. `);
+      console.log({ say: toSay });
+      if (toSay.match(regexDot)) {
+        return say && say(toSay);
+      }
+      return say && say(`${toSay}. `);
     };
 
     this.getFunctions = () => ({
