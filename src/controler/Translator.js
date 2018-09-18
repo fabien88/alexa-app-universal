@@ -11,15 +11,17 @@ const translatorForLanguages = (translations, fallbackLng = 'fr') => {
   const resources = R.map(translation => translation({ s, r }), translations);
 
   const translator = (request) => {
-    const localizationClient = i18n.use(sprintf).init({
-      lng: request.data.request.locale,
-      fallbackLng,
-      overloadTranslationOptionHandler:
-        sprintf.overloadTranslationOptionHandler,
-      resources,
-      returnObjects: true,
-    });
-    const t = (arg0, ...args) => localizationClient.t(R.replace(/%'/, "%%'", arg0), ...args);
+    const localizationClient = i18n
+      .use((arg0, ...args) => sprintf(R.replace(/%'/, "%%'", arg0), ...args))
+      .init({
+        lng: request.data.request.locale,
+        fallbackLng,
+        overloadTranslationOptionHandler:
+          sprintf.overloadTranslationOptionHandler,
+        resources,
+        returnObjects: true,
+      });
+    const t = (...args) => localizationClient.t(...args);
 
     const { intent } = request.data.request;
     const name = (intent && request.data.request.intent.name) || request.data.request.type;
