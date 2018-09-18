@@ -19,7 +19,7 @@ const translatorForLanguages = (translations, fallbackLng = 'fr') => {
       resources,
       returnObjects: true,
     });
-    const t = (...args) => localizationClient.t(...args);
+    const t = (arg0, ...args) => localizationClient.t(R.replace(/%'/, "%%'", arg0), ...args);
 
     const { intent } = request.data.request;
     const name = (intent && request.data.request.intent.name) || request.data.request.type;
