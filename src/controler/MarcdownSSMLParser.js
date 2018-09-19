@@ -162,6 +162,6 @@ const s = () => new AmazonSpeech();
 const parseSentence = parseGeneric('\n', 's', sentence => speechReducer(s(), parser.toTree() && parser.toTree(sentence)).ssml(true));
 const parseParagraph = parseGeneric('\n\n', 'p', parseSentence);
 
-const md = text => `<speak>${parseParagraph(text)}</speak>`;
+const md = text => `${parseParagraph(text)}`;
 
 module.exports = md;

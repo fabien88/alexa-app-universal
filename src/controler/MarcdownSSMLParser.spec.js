@@ -10,8 +10,6 @@ describe('parser', () => {
     expect(res).to.be.eql(
       R.repeat("<speak><emphasis level='moderate'>hello</emphasis></speak>", 5),
     );
-    const res2 = [1, 2, 3, 4, 5].map(() => md('[titi](as: interjection)'));
-    console.log({ res2 });
   });
   it('audio', () => {
     expect(rNl(md('[https://example.com/test.mp3](ext: audio) !'))).to.be.eql(
