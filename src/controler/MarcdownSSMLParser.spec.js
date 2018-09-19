@@ -31,8 +31,8 @@ describe('parser', () => {
     );
   });
   it('pause2s', () => {
-    expect(rNl(md('...2s tu vas bien ?'))).to.be.eql(
-      '<speak> <break time="2s"/> tu vas bien ? </speak>',
+    expect(rNl(md('...0.5s tu vas bien ?'))).to.be.eql(
+      '<speak> <break time="0.5s"/> tu vas bien ? </speak>',
     );
   });
   it('paragraph', () => {

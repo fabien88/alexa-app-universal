@@ -85,9 +85,8 @@ parser.addRule(/\+\+(.+?)\+\+/gi, (tag, text) => ({
 parser.addRule(/\+(.+?)\+/gi, (tag, text) => ({
   type: s => s.prosody({ volume: 'loud' }, text),
 }));
-parser.addRule(/(\.\.\.(\d+)(s|ms))/gi, (tag, text) => {
-  const [other, time, unit] = /(\d+)(s|ms)/gi.exec(tag);
-
+parser.addRule(/(\.\.\.(\S+)(s|ms))/gi, (tag, text) => {
+  const [other, time, unit] = /\.\.\.(\S+)(s|ms)/gi.exec(tag);
   return {
     type: s => s.pause(time + unit),
   };
