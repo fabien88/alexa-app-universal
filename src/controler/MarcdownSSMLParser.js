@@ -1,3 +1,38 @@
+/**
+
+  silent
+    ~coucou~ ca va ?
+
+  soft
+    -coucou- ca va ?
+
+  loud
+    +hé ho!+
+
+  slow
+    <tu vas bien< ?
+
+  pitch
+    __coucou__
+    _coucou_
+    ^coucou^
+    ^^coucou^^
+
+  Emphasis moderate
+    hello *bruno*
+  Emphasis strong
+    hello **bruno**
+
+  Emphasis reduced
+    hello ~*coucou*~
+
+  Hello ...500ms tu vas bien ?
+
+  [chutte c'est un secret](ext: whisper) !.
+
+  [Waouh](as: interjection) t'es trop forte !
+ */
+
 const Parser = require('simple-text-parser');
 const xmlFormat = require('xml-formatter');
 const R = require('ramda');
@@ -111,6 +146,8 @@ const speechReducer = R.reduce((s, { type, text }) => {
 
 const parseGeneric = (separator, tag, subCall) => (text) => {
   const results = R.compose(
+    R.filter(item => item),
+    R.map(item => item.trim()),
     R.map(splitText => subCall(splitText)),
     R.split(separator),
   )(text);

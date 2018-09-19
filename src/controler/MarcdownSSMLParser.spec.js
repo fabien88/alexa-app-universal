@@ -77,5 +77,30 @@ describe('parser', () => {
     expect(rNl(md('hello ^^tu vas^^ ^bien^ ?'))).to.be.eql(
       '<speak> hello <prosody pitch="x-high"> tu vas </prosody> <prosody pitch="high"> bien </prosody> ? </speak>',
     );
+    expect(
+      md(`
+      hello
+    `),
+    ).to.be.eql('<speak>\n    hello\n</speak>');
+    expect(
+      md(`
+      hello.
+      ça va ?
+
+      oui
+    `),
+    ).to.be.eql(`<speak>
+    <p>
+        <s>
+            hello.
+        </s>
+        <s>
+            ça va ?
+        </s>
+    </p>
+    <p>
+        oui
+    </p>
+</speak>`);
   });
 });
