@@ -1,5 +1,7 @@
 /**
 
+  [hello](vrp: 123)
+
   silent
     ~coucou~ ca va ?
 
@@ -129,6 +131,7 @@ addParseFunc('as', (s, text, params) => s.sayAs({
 
 const extensions = {
   whisper: (s, text) => s.whisper(text),
+  audio: (s, text) => s.audio(text),
 };
 addParseFunc('ext', (s, text, extension) => extensions[extension](s, text));
 

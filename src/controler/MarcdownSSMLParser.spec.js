@@ -5,6 +5,11 @@ const md = require('./MarcdownSSMLParser');
 
 describe('parser', () => {
   const rNl = text => R.replace(/\s+/gi, ' ')(text);
+  it('audio', () => {
+    expect(rNl(md('[https://example.com/test.mp3](ext: audio) !'))).to.be.eql(
+      "<speak><audio src='https://example.com/test.mp3'/> !</speak>",
+    );
+  });
   it('whisper', () => {
     expect(rNl(md("[c'est un secret](ext: whisper) !"))).to.be.eql(
       '<speak><amazon:effect name="whispered">c&apos;est un secret</amazon:effect> !</speak>',
