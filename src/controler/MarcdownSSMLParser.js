@@ -136,12 +136,10 @@ const extensions = {
 addParseFunc('ext', (s, text, extension) => extensions[extension](s, text));
 
 const speechReducer = R.reduce((s, { type, text }) => {
-  switch (type) {
-    case 'text':
-      return s.say(text);
-    default:
-      return type(s);
+  if (type === 'text') {
+    return s.say(text);
   }
+  return type(s);
 });
 
 const parseGeneric = (separator, tag, subCall) => (text) => {
@@ -161,7 +159,7 @@ const parseGeneric = (separator, tag, subCall) => (text) => {
 };
 
 const s = () => new AmazonSpeech();
-const parseSentence = parseGeneric('\n', 's', sentence => speechReducer(s(), parser.toTree(sentence)).ssml(true));
+const parseSentence = parseGeneric('\n', 's', sentence => speechReducer(s(), parser.toTree() && parser.toTree(sentence)).ssml(true));
 const parseParagraph = parseGeneric('\n\n', 'p', parseSentence);
 
 const md = text => `<speak>${parseParagraph(text)}</speak>`;
