@@ -85,17 +85,16 @@ parser.addRule(/\+\+(.+?)\+\+/gi, (tag, text) => ({
 parser.addRule(/\+(.+?)\+/gi, (tag, text) => ({
   type: s => s.prosody({ volume: 'loud' }, text),
 }));
-parser.addRule(/( \.\.\. )/gi, (tag, text) => ({
-  type: s => s.pause('1000ms'),
-}));
-
-parser.addRule(/( \.\.\.(\d+)(s|ms) )/gi, (tag, text) => {
+parser.addRule(/(\.\.\.(\d+)(s|ms))/gi, (tag, text) => {
   const [other, time, unit] = /(\d+)(s|ms)/gi.exec(tag);
 
   return {
     type: s => s.pause(time + unit),
   };
 });
+parser.addRule(/(\.\.\.)/gi, (tag, text) => ({
+  type: s => s.pause('1000ms'),
+}));
 
 const addParseFunc = (name, callback) => {
   const regex = new RegExp(`\\[(.+?)\\]\\(${name}: \\S+\\)`, 'gi');
