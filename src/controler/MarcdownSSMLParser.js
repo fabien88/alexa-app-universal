@@ -34,7 +34,6 @@
  */
 
 const Parser = require('simple-text-parser');
-const xmlFormat = require('xml-formatter');
 const R = require('ramda');
 const AmazonSpeech = require('ssml-builder/amazon_speech');
 
