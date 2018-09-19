@@ -23,16 +23,18 @@
     "i18next": "^11.6.0",
     "i18next-sprintf-postprocessor": "^0.2.2",
     "ramda": "^0.25.0",
-    "ssml-builder": "^0.4.3"
+    "simple-text-parser": "^1.0.0",
+    "ssml-builder": "^0.4.3",
+    "xml-formatter": "^1.0.1"
   },
   "author": "Matt Kruse <github@mattkruse.com> (http://mattkruse.com/)",
   "license": "MIT",
   "devDependencies": {
+    "chai": "3.5.0",
+    "co-mocha": "1.1.2",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.13.0",
-    "chai": "3.5.0",
-    "co-mocha": "1.1.2",
     "mocha": "2.5.3",
     "sinon": "1.17.4",
     "sinon-chai": "2.8.0"
