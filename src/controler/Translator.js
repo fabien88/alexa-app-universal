@@ -3,13 +3,16 @@ const sprintf = require('i18next-sprintf-postprocessor');
 const AmazonSpeech = require('ssml-builder/amazon_speech');
 const R = require('ramda');
 const md = require('./MarcdownSSMLParser');
+const utt = require('./UtteranceGenerator');
 
 const s = () => new AmazonSpeech();
 const r = (...items) => items[Math.floor(Math.random() * items.length)];
 
 const translatorForLanguages = (translations, fallbackLng = 'fr') => {
   const resources = R.map(
-    translation => translation({ s, r, md }),
+    translation => translation({
+      s, r, md, utt,
+    }),
     translations,
   );
 
