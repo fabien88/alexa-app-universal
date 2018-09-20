@@ -14,12 +14,14 @@ const getApp = ({
   postMiddlewares,
   intents,
   launchIntent,
+  warmup,
   dependencies,
   types,
   loadSchema = false,
 }) => {
+  warmup();
   R.compose(
-    R.map(name => console.log(`For intent :${name}, duplicate found`)),
+    R.map(name => console.log(`[WARNING] **** For intent :${name}, duplicate found`)),
     R.keys,
     R.filter(intentsForName => intentsForName.length > 1),
     R.groupBy(R.prop('name')),
