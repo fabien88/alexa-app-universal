@@ -18,6 +18,13 @@ const getApp = ({
   types,
   loadSchema = false,
 }) => {
+  R.compose(
+    R.map(name => console.log(`For intent :${name}, duplicate found`)),
+    R.keys,
+    R.filter(intentsForName => intentsForName.length > 1),
+    R.groupBy(R.prop('name')),
+  )(intents);
+
   const getNextSlotFilled = ({ options, slots, intent }) => {
     if (intent.denied) {
       return 'intentDenied';
