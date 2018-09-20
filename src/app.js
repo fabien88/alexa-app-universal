@@ -19,7 +19,9 @@ const getApp = ({
   types,
   loadSchema = false,
 }) => {
-  warmup();
+  if (warmup) {
+    warmup();
+  }
   R.compose(
     R.map(name => console.log(`[WARNING] **** For intent :${name}, duplicate found`)),
     R.keys,
