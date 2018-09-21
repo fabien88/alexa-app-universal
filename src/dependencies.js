@@ -9,6 +9,7 @@ const builtInDependencies = {
   database: (tableName, region, skillName) => (...args) => ({
     database: new Database(tableName, region, skillName, ...args),
   }),
+  md,
   t,
 };
 
@@ -46,5 +47,4 @@ const getDeps = (dependencies, ...args) => {
 module.exports = {
   getDeps,
   dependencies: builtInDependencies,
-  md,
 };
