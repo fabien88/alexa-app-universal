@@ -46,4 +46,5 @@ const getDeps = (dependencies, ...args) => {
 module.exports = {
   getDeps,
   dependencies: builtInDependencies,
+  md,
 };
