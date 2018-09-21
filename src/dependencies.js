@@ -3,6 +3,7 @@ const Database = require('./controler/Database');
 const t = require('./controler/Translator');
 const CustomDirectives = require('./controler/CustomDirectives');
 const Slots = require('./model/Slots');
+const md = require('.controler/MarcdownSSMLParser');
 
 const builtInDependencies = {
   database: (tableName, region, skillName) => (...args) => ({
@@ -28,6 +29,7 @@ const getDeps = (dependencies, ...args) => {
   // Mandatory deps
   allDeps = {
     ...allDeps,
+    md,
     slots: new Slots(...args).getAllSlots(),
     ...new CustomDirectives(...args).getFunctions(),
     intentName: getIntentName(...args),
