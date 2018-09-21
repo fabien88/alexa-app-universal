@@ -1,9 +1,10 @@
 const notInitializedDynasty = require('dynasty');
 
 class Database {
-  constructor(tableName, region) {
+  constructor(tableName, region, skillName) {
     this.dynasty = notInitializedDynasty({ region });
     this.tableName = tableName;
+    this.skillName = skillName || tableName;
     this.table = this.dynasty.table(this.tableName);
   }
 
@@ -20,6 +21,7 @@ class Database {
     return this.table
       .insert({
         ...userData,
+        skillName: this.skillName,
         userId,
       })
       .catch((error) => {
