@@ -3,7 +3,8 @@ const R = require('ramda');
 
 const removeSpaces = R.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
 
-const generateUtterances = (utterances) => {
+const generateUtterances = (utterancesParam) => {
+  const utterances = R.type(utterancesParam) === 'Array' ? utterancesParam : [utterancesParam];
   const samples = [];
   R.forEach((utterance) => {
     R.map(
