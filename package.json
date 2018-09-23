@@ -24,6 +24,7 @@
     "i18next-sprintf-postprocessor": "^0.2.2",
     "ramda": "^0.25.0",
     "simple-text-parser": "^1.0.0",
+    "ssmd": "^1.0.1",
     "ssml-builder": "^0.4.3"
   },
   "author": "Matt Kruse <github@mattkruse.com> (http://mattkruse.com/)",

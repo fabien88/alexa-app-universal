@@ -2,9 +2,10 @@ const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 const AmazonSpeech = require('ssml-builder/amazon_speech');
 const R = require('ramda');
-const md = require('./MarcdownSSMLParser');
+const ssmd = require('ssmd');
 const utt = require('./UtteranceGenerator');
 
+const md = text => ssmd(text, false);
 const s = () => new AmazonSpeech();
 const r = (...items) => items[Math.floor(Math.random() * items.length)];
 
