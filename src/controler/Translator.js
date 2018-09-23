@@ -15,7 +15,13 @@ const translatorForLanguages = (translations, fallbackLng = 'fr') => {
       r,
       md,
       utt,
-      mdd: utterances => R.map(md, utt(utterances)),
+      mdd: (utterances) => {
+        const res = R.map(md, utt(utterances));
+        if (res.length === 1) {
+          return R.head(res);
+        }
+        return res;
+      },
     }),
     translations,
   );
