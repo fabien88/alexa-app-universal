@@ -5,11 +5,13 @@ const t = require('./controler/Translator');
 const CustomDirectives = require('./controler/CustomDirectives');
 const Slots = require('./model/Slots');
 
+const md = text => ssmd(text, false);
+console.log({ md });
 const builtInDependencies = {
   database: (tableName, region, skillName) => (...args) => ({
     database: new Database(tableName, region, skillName, ...args),
   }),
-  md: text => ssmd(text, false),
+  md,
   t,
 };
 
