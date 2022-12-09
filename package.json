@@ -19,7 +19,7 @@
     "body-parser": "^1.13.1",
     "dynasty": "^0.3.9",
     "ejs": "^2.3.1",
-    "express": "^4.13.0",
+    "express": "^4.17.3",
     "i18next": "^11.6.0",
     "i18next-sprintf-postprocessor": "^0.2.2",
     "ramda": "^0.25.0",
